@@ -1,0 +1,19 @@
+.loginWithGoogleButton{
+    display: inline-block;
+      background: transparent;
+      color: white;
+      width: 310px;
+      height: auto;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px grey;
+      white-space: nowrap;
+      font-weight: 800;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      text-align: justify;
+      text-justify: newspaper;
+    }
+.logo {
+    height: 32px;
+    margin-bottom: 2px;
+}

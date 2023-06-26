@@ -1,10 +1,21 @@
 import React from "react";
-import { AuthDetails } from "./AuthDetails";
+import { GoToLogin } from "./Buttons/goToLogin/goToLogin";
+import { GoToRegister } from "./Buttons/goToRegister/goToRegister";
 
 export function Home() {
+
+
   return (
     <div>
-      <AuthDetails />
+      <h1>Welcome to Welivefromart </h1>
+
+      <p>Para iniciar, por favor crea una cuenta </p>
+
+      <div className="botones">
+    <GoToRegister />
+        <p>Ya tienes una? </p>
+    <GoToLogin />
+      </div>
     </div>
   );
 }

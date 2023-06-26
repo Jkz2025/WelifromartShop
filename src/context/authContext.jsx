@@ -1,5 +1,13 @@
 import { createContext, useContext, useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification,
+  FacebookAuthProvider, 
+  linkWithPopup
+} from "firebase/auth";
 import { auth } from "../components/firebase";
 import { useEffect } from "react";
 
@@ -22,8 +30,26 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  const sendEmail = () => {
+    return sendEmailVerification(auth.currentUser);
+  };
+
   const signOut = () => {
     return auth.signOut();
+  };
+
+  const loginWithGoogle = () => {
+    const googleProvider = new GoogleAuthProvider();
+    return signInWithPopup(auth, googleProvider);
+  };
+
+  const loginWithFacebook = () => {
+    const facebookProvider = new FacebookAuthProvider();
+    return signInWithPopup(auth, facebookProvider);
+  }
+
+  const isEmailVerified = () => {
+    return currentUser && currentUser.emailVerified;
   };
 
   useEffect(() => {
@@ -38,10 +64,14 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    loginWithGoogle,
+    loginWithFacebook,
     setAuthUser,
     signUp,
     signIn,
     signOut,
+    sendEmail,
+    isEmailVerified
   };
 
   return (

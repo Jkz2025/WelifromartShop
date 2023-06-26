@@ -29,7 +29,7 @@ export const AuthDetails = () => {
       })
       .catch((error) => console.log(error));
 
-      navigate("/login")
+      // navigate("/login")
   };
 
   return (

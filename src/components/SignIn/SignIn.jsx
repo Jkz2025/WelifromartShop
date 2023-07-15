@@ -7,58 +7,66 @@ import { GoToBack } from "../Buttons/goToBack/goToBack";
 import { LoginWithGoogle } from "../Buttons/loginWithGoogle/LoginWithGoogle";
 import { LoginWithFacebook } from "../Buttons/loginWithFacebook/loginWithFacebook";
 import { useEffect } from "react";
+import "./SignIn.css"
 
 const notification = withReactContent(Swal);
 
 export const SignIn = () => {
-  const { signIn, isEmailVerified, currentUser } = useAuth();
+  const { signIn, isEmailVerified, currentUser, signOut } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Check Facebook login status on component mount
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }, []);
+  // useEffect(() => {
+  //   // Check Facebook login status on component mount
+  //   FB.getLoginStatus(function(response) {
+  //     statusChangeCallback(response);
+  //   });
+  // }, []);
 
-  const statusChangeCallback = (response) => {
-    if (response.status === "connected") {
-      // Person is logged in and connected to your app
-      // Redirect or perform other actions as needed
-      navigate("/mainPage");
-    } else if (response.status === "not_authorized") {
-      // Person is logged in to Facebook but not your app
-      // Show login button or open login dialog with FB.login()
-    } else {
-      // Person is not logged in to Facebook and not connected to your app
-      // Show login button or prompt user to login
-    }
-  };
+  // const statusChangeCallback = (response) => {
+  //   if (response.status === "connected") {
+  //     // Person is logged in and connected to your app
+  //     // Redirect or perform other actions as needed
+  //     navigate("/mainPage");
+  //   } else if (response.status === "not_authorized") {
+  //     // Person is logged in to Facebook but not your app
+  //     // Show login button or open login dialog with FB.login()
+  //   } else {
+  //     // Person is not logged in to Facebook and not connected to your app
+  //     // Show login button or prompt user to login
+  //   }
+  // };
 
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     if (email === "" || password === "") {
       notification.fire({
-        title: <strong>Ups !</strong>,
-        html: `<i>Campos vacios por favor inicia sesion</i>`,
-        icon: "warning",
+        title: <strong>Error !</strong>,
+        html: `<i>Campos vacios </i>`,
+        icon: "error",
         timer: 3000,
       });
     } else {
       try {
-        if (!isEmailVerified()) {
+        if(!email){
           notification.fire({
-            title: <strong>Ups !</strong>,
-            html: `<i>Por favor verifica tu correo electronico</i>`,
+            title: <strong>Lo sentimos !</strong>,
+            html: `<i>Usuario no existe</i>`,
             icon: "warning",
             timer: 3000,
           });
-          location.reload();
-        } else if (isEmailVerified() && currentUser) {
+        } else if (currentUser && !isEmailVerified()) {
+          notification.fire({
+            title: <strong>Lo sentimos </strong>,
+            html: `<i>Por favor verifica tu correo electronico</i>`,
+            icon: "warning",
+            timer: 5000,
+          });
+          signOut()
+        } else  {
           await signIn(email, password);
           notification.fire({
             title: <strong>Successfully !</strong>,
@@ -92,9 +100,9 @@ export const SignIn = () => {
           });
         } else if (error.code === "auth/user-not-found") {
           notification.fire({
-            title: <strong>Hey !</strong>,
-            html: `<i>Por favor crea una cuenta, este usuario aun no existe</i>`,
-            icon: "warning",
+            title: <strong>Error </strong>,
+            html: `<i>Usuario no existe, por favor crea una cuenta </i>`,
+            icon: "error",
             timer: 3000,
           });
         } else {
@@ -137,6 +145,10 @@ export const SignIn = () => {
       <LoginWithFacebook />
       <br />
       <br />
+      <div className="pie-form">
+            <a href="/forgotPassword">¿Perdiste tu contraseña?</a>
+            <a href="/register">¿No tienes Cuenta? Registrate</a>
+          </div>
       <GoToBack />
     </div>
   );

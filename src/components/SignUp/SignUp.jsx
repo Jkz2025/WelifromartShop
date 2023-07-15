@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { GoToBack } from "../Buttons/goToBack/goToBack";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { LoginWithGoogle}  from "../Buttons/loginWithGoogle/LoginWithGoogle";
 import "./SignUp.css";
 
 const notification = withReactContent(Swal);
@@ -90,6 +91,13 @@ export const SignUp = () => {
           timer: 3000,
         });
         setRegisterClicked(false);
+      } else if (email.trim() === "") {
+        notification.fire({
+          title: <strong>Error</strong>,
+          html: `<i>Espacios vacíos en correo`,
+          icon: "error",
+          timer: 5000,
+        });
       } else if (email === "") {
         notification.fire({
           title: <strong>Ups!</strong>,
@@ -102,7 +110,7 @@ export const SignUp = () => {
         try {
           await signUp(email, password);
           await sendEmail();
-          window.localStorage.setItem('emailForSignIn', email);
+          window.localStorage.setItem("emailForSignIn", email);
           navigate("/login");
           notification.fire({
             title: <strong>Successfully !</strong>,
@@ -142,6 +150,11 @@ export const SignUp = () => {
     }
   };
 
+  const validateEmail = (e) => {
+    const value = e.target.value.trim();
+    setEmail(value);
+  };
+  
   return (
     <div className="signup">
       <form onSubmit={handleSignUp}>
@@ -153,7 +166,17 @@ export const SignUp = () => {
             type="text"
             placeholder="Your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={validateEmail}
+            onBlur={() => {
+              if (email.trim() === "") {
+                notification.fire({
+                  title: <strong>Error</strong>,
+                  html: `<i>Espacios vacíos en correo</i>`,
+                  icon: "error",
+                  timer: 5000,
+                });
+              }
+            }}
           />
         </div>
         <div className="passwordContainer">
@@ -185,6 +208,9 @@ export const SignUp = () => {
         >
           Register
         </button>
+        <br />
+        <br />
+        <LoginWithGoogle />
       </form>
     </div>
   );

@@ -6,7 +6,7 @@ import {
   signInWithPopup,
   sendEmailVerification,
   FacebookAuthProvider, 
-  linkWithPopup
+  sendPasswordResetEmail
 } from "firebase/auth";
 import { auth } from "../components/firebase";
 import { useEffect } from "react";
@@ -22,21 +22,47 @@ export function AuthProvider({ children }) {
     setCurrentUser(user);
   };
 
+  useEffect(() => {
+    //Recuperar el estado de currentUser desde localStorage asi se recargue la pagina 
+    const savedUser = localStorage.getItem("currentUser");
+    if (savedUser) {
+      setCurrentUser(JSON.parse(savedUser));
+    }
+  }, [])
+
+
   const signUp = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signIn = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
+  };  
+
+  // const login = (user) => {
+  //   //Autenticar al usuario y establecer currentUser
+  //   setCurrentUser(user)
+  //   //Guardar currentUser en LocalStorage
+  //   localStorage.getItem("currentUser", JSON.stringify(user))
+  // }
+
+  const signOut = () => {
+    return auth.signOut();
   };
+
+  // const logout = () => {
+  //  //limpiar el estado currentUser
+  //   setCurrentUser(null)
+  //   //Eliminar currentUser de LocalStorage
+  //   localStorage.removeItem("currentUser")
+  // }
+
 
   const sendEmail = () => {
     return sendEmailVerification(auth.currentUser);
   };
 
-  const signOut = () => {
-    return auth.signOut();
-  };
+
 
   const loginWithGoogle = () => {
     const googleProvider = new GoogleAuthProvider();
@@ -52,6 +78,12 @@ export function AuthProvider({ children }) {
     return currentUser && currentUser.emailVerified;
   };
 
+  const forgotPassword = (email) => {
+    return sendPasswordResetEmail(auth, email, {
+      url: 'http://localhost:5174/login',
+    })
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -64,14 +96,15 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
-    loginWithGoogle,
-    loginWithFacebook,
-    setAuthUser,
     signUp,
     signIn,
     signOut,
+    loginWithGoogle,
+    loginWithFacebook,
+    setAuthUser,
     sendEmail,
-    isEmailVerified
+    isEmailVerified,
+    forgotPassword,
   };
 
   return (

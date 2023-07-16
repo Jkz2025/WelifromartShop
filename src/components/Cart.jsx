@@ -62,7 +62,7 @@ export function Cart() {
 
   const createPreference = async (title, price, quantity) => {
     try {
-      const response = await axios.post("http://localhost:4000/create_preference", {
+      const response = await axios.post("https://backendshoping-omop.onrender.com/create_preference", {
         title: title,
         price: price,
         quantity: quantity,

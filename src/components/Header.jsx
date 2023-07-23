@@ -1,10 +1,10 @@
-import { Filters } from "./Filters"
+import { Filters } from "./Filters/Filters"
 
 
 export function Header () {
     return (
         <header>
-            <h1>React Shop</h1>
+            <h1>Welcome !</h1>
             {/* {children} */}
             <Filters  />
         </header>

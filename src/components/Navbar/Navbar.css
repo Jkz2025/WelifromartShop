@@ -1,0 +1,39 @@
+/* Estilos para el componente Navbar */
+.navbar-container {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 0rem;
+  }
+  
+  /* Estilos para los elementos internos del Navbar */
+  .navbar-container a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 1rem;
+    font-weight: bold;
+  }
+  
+  .navbar-container a:hover {
+    color: #646cff;
+  }
+  
+  /* Estilos responsive */
+  @media (max-width: 768px) {
+    /* Aplicar estilos diferentes cuando el ancho de la pantalla es menor o igual a 768px */
+    .navbar-container {
+        height: auto;
+    }
+  
+    .navbar-container a {
+      margin-right: 0; /* Quitar el margen derecho para que los enlaces se alineen verticalmente */
+      margin-bottom: 0.5rem; /* Agregar un espacio entre los enlaces */
+    }
+  }
+  

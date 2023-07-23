@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/authContext";
+import { useAuth  } from "../../../context/authContext";
 import "./loginWithGoogle.css";
 
 export function LoginWithGoogle() {
   const navigate = useNavigate();
-  const { loginWithGoogle } = useAuth();
+  const { loginWithGoogle, currentUser } = useAuth();
+
+useEffect(() => {
+  if(currentUser){
+    navigate("/mainPage")
+  }
+}, [currentUser])
 
   return (
     <button
       className="loginWithGoogleButton"
       onClick={() => {
         loginWithGoogle()
-          .then((user) => console.log(user))
           .catch((error) => console.log(error));
-        navigate("/mainPage");
       }}
     >
       <svg

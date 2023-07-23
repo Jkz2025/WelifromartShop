@@ -1,0 +1,29 @@
+/* Estilos para la clase .filters */
+.filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
+  /* Aplicar estilos para los elementos dentro de .filters */
+  .filters > div {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  /* Estilos responsive para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column; /* Alinear los elementos verticalmente cuando la pantalla es pequeña */
+      justify-content: flex-start; /* Alinear los elementos en la parte superior */
+      font-size: 12px; /* Reducir el tamaño de fuente para una mejor legibilidad en pantallas más pequeñas */
+    }
+  
+    .filters > div {
+      flex-direction: column; /* Alinear los elementos verticalmente cuando la pantalla es pequeña */
+      gap: 0.5rem; /* Ajustar el espacio entre los elementos */
+    }
+  }
+  

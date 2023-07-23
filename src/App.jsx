@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/authContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ForgotPassword } from "./components/ForgotPassword/ForgotPassword";
 import { ProfilePage } from "./components/ProfilePage/ProfilePage";
+import { Navbar } from "./components/Navbar/Navbar";
 // import {useAuth}  from "./context/authContext";
 function App() {
   // const { login } = useAuth();
@@ -24,6 +25,9 @@ function App() {
   return (
     <>
       <div className="wrapper">
+
+      <Navbar />
+
         <BrowserRouter>
           <AuthProvider>
             <Routes>
@@ -34,6 +38,7 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <MainPage />
+
                   </ProtectedRoute>
                 }
               />
